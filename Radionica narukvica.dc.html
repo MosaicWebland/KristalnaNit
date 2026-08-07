@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&amp;family=Jost:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: {{ accent }}; }
+  ::selection { background: rgba(110,84,135,0.22); }
+  @keyframes floatUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes tick { 0%, 84% { transform: rotate(0deg); } 96%, 100% { transform: rotate(360deg); } }
+  @keyframes ctaSweep { 0% { transform: translateX(-160%) skewX(-20deg); } 60%, 100% { transform: translateX(320%) skewX(-20deg); } }
+
+  /* ---- Desktop only ---- */
+  @media (min-width: 861px) {
+    [data-mobilemenu] { display: none !important; }
+  }
+
+  /* ---- Tablet ---- */
+  @media (max-width: 900px) {
+    [style*="grid-template-columns: 1.05fr 0.95fr"] { grid-template-columns: 1fr !important; gap: 0 !important; }
+    [style*="margin-left: -32%"] { display: none !important; }
+    [data-hero-mobile-img] { display: block !important; }
+    p[style*="height: 134px"] { width: auto !important; height: auto !important; font-size: 17px !important; line-height: 1.6 !important; }
+    h1[style*="font-size: 68px"] { font-size: 48px !important; width: auto !important; overflow-wrap: anywhere !important; }
+    [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
+    h2[style*="white-space: nowrap"] { white-space: normal !important; }
+    [data-herostats-desktop] { display: none !important; }
+    [data-herostats-mobile] { display: grid !important; }
+    [data-cta-desktop] { display: none !important; }
+    [data-cta-mobile] { display: flex !important; }
+  }
+
+  /* ---- Mobile nav (hamburger) ---- */
+  @media (max-width: 860px) {
+    [data-desktopnav] { display: none !important; }
+    [data-hamburger] { display: flex !important; }
+    [data-mobillang] { display: inline-flex !important; padding: 2px !important; transform: scale(0.82); transform-origin: right center; margin-right: 6px; }
+    [data-mobillang] button { padding: 5px 10px !important; font-size: 12px !important; }
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 600px) {
+    [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: 1fr !important; }
+    [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 32px !important; }
+    [style*="grid-template-columns: 0.9fr 1.1fr"] { grid-template-columns: 1fr !important; gap: 32px !important; }
+    h1[style*="font-size: 68px"] { font-size: 36px !important; }
+    h2[style*="font-size: 46px"], h2[style*="font-size: 48px"], h2[style*="white-space: nowrap"] { font-size: 30px !important; }
+    [style*="padding: 96px 28px"] { padding: 56px 20px !important; }
+    [style*="padding: 88px 28px"], [style*="padding: 44px 28px"] { padding: 28px 20px 52px !important; }
+    [data-atm-overlay] { display: none !important; }
+    [data-atm-shade] { display: none !important; }
+    [data-atm-mobile] { display: block !important; }
+    [data-atm-img] { height: 300px !important; object-position: 70% 45% !important; }
+    [data-cta-mobile] { justify-self: start !important; width: auto !important; padding-left: 44px !important; padding-right: 44px !important; }
+    [style*="justify-content: space-between; gap: 24px"] { flex-direction: column !important; justify-content: center !important; text-align: center !important; }
+    [style*="padding: 18px 28px"] { padding: 14px 20px !important; }
+    [style*="font-size: 72px"] { font-size: 56px !important; }
+    [data-gallery-grid] { grid-template-columns: 1fr !important; }
+  }
+</style>
+</helmet>
+<div style="font-family: 'Jost', sans-serif; color: #2a2422; background: #faf6f0; overflow-x: hidden;">
+
+  <!-- NAV -->
+  <div style="position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); background: rgba(250,246,240,0.82); border-bottom: 1px solid rgba(42,36,34,0.08);">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="assets/logo-clean.png" alt="Kristalna Nit" style="width: 46px; height: 46px; object-fit: contain; display: block;">
+        <span style="font-family: 'EB Garamond', serif; font-size: 23px; font-weight: 600; letter-spacing: 0.02em; color: #6e5487; white-space: nowrap;">Kristalna Nit</span>
+      </div>
+      <div data-desktopnav="" style="display: flex; align-items: center; gap: 30px; font-size: 15px; font-weight: 400;">
+        <a href="#o-radionici" data-navlink="">{{ nav_about }}</a>
+        <a href="#galerija" data-navlink="">{{ nav_gallery }}</a>
+        <a href="#cena" data-navlink="">{{ nav_price }}</a>
+        <a href="#pitanja" data-navlink="">{{ nav_faq }}</a>
+        <div style="display: inline-flex; align-items: center; padding: 3px; border-radius: 999px; background: rgba(110,84,135,0.1); border: 1px solid rgba(110,84,135,0.25);">
+          <button onClick="{{ setSr }}" style="{{ srBtnStyle }}">SR</button>
+          <button onClick="{{ setHu }}" style="{{ huBtnStyle }}">HU</button>
+        </div>
+      </div>
+      <div data-mobillang="" style="display: none; align-items: center; padding: 3px; border-radius: 999px; background: rgba(110,84,135,0.1); border: 1px solid rgba(110,84,135,0.25); margin-left: auto;">
+        <button onClick="{{ setSr }}" style="{{ srBtnStyle }}">SR</button>
+        <button onClick="{{ setHu }}" style="{{ huBtnStyle }}">HU</button>
+      </div>
+      <button data-hamburger="" onClick="{{ toggleMenu }}" aria-label="Menu" style="display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 10px;">
+        <span style="display: block; height: 2px; width: 100%; background: #2a2422; border-radius: 2px; transition: transform 0.25s ease, opacity 0.2s; transform: {{ barTop }};"></span>
+        <span style="display: block; height: 2px; width: 100%; background: #2a2422; border-radius: 2px; transition: opacity 0.2s; opacity: {{ barMidOpacity }};"></span>
+        <span style="display: block; height: 2px; width: 100%; background: #2a2422; border-radius: 2px; transition: transform 0.25s ease; transform: {{ barBot }};"></span>
+      </button>
+    </div>
+    <div data-mobilemenu="" style="display: {{ menuDisplay }}; flex-direction: column; gap: 4px; padding: 12px 20px 22px; border-top: 1px solid rgba(42,36,34,0.08); background: rgba(250,246,240,0.97);">
+      <a href="#o-radionici" onClick="{{ closeMenu }}" style="padding: 14px 6px; font-size: 17px; border-bottom: 1px solid rgba(42,36,34,0.07);">{{ nav_about }}</a>
+      <a href="#galerija" onClick="{{ closeMenu }}" style="padding: 14px 6px; font-size: 17px; border-bottom: 1px solid rgba(42,36,34,0.07);">{{ nav_gallery }}</a>
+      <a href="#cena" onClick="{{ closeMenu }}" style="padding: 14px 6px; font-size: 17px; border-bottom: 1px solid rgba(42,36,34,0.07);">{{ nav_price }}</a>
+      <a href="#pitanja" onClick="{{ closeMenu }}" style="padding: 14px 6px; font-size: 17px; border-bottom: 1px solid rgba(42,36,34,0.07);">{{ nav_faq }}</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="max-width: 1180px; margin: 0 auto; padding: 44px 28px 96px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; align-items: center;">
+    
+    <div style="animation: floatUp 0.8s ease both; z-index: 1">
+      <div style="font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6e5487; margin-bottom: 16px;">{{ hero_kicker }}</div>
+      <h1 style="font-family: 'EB Garamond', serif; font-weight: 600; font-size: 68px; line-height: 1.02; letter-spacing: -0.01em; margin: 0 0 26px; width: 540px;">{{ hero_h1 }}</h1>
+      <div data-hero-mobile-img="" style="display: none; position: relative; margin: -18px 0 22px; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%), linear-gradient(270deg, transparent 0%, #000 10%), linear-gradient(180deg, transparent 0%, #000 12%), linear-gradient(0deg, transparent 0%, #000 12%); -webkit-mask-composite: source-in, source-in, source-in; mask-image: linear-gradient(90deg, transparent 0%, #000 10%), linear-gradient(270deg, transparent 0%, #000 10%), linear-gradient(180deg, transparent 0%, #000 12%), linear-gradient(0deg, transparent 0%, #000 12%); mask-composite: intersect;"><img src="uploads/kristályhero.png" alt="Narukvica od ametista sa metalnim priveskom" style="width: 100%; height: auto; display: block;"></div>
+      <p style="font-size: 20px; line-height: 1.65; font-weight: 400; color: #4a423c; max-width: 480px; margin: 0 0 46px; text-wrap: pretty; width: 437px; height: 134px">{{ hero_sub }}</p>
+      <div data-cta-desktop="" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+        <a href="#prijava" class="heroCta" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 19px 42px; white-space: nowrap; color: #faf6f0; border-radius: 999px; font-size: 17px; font-weight: 500; letter-spacing: 0.01em; background-color: #6E5487; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;" style-hover="background: #2a2422; transform: translateY(-3px); box-shadow: 0 16px 30px -12px rgba(110,84,135,0.6);"><span style="position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22) 50%, transparent); filter: blur(6px); animation: ctaSweep 3.8s ease-in-out infinite;"></span>{{ hero_cta }}</a>
+        
+      </div>
+      <div data-herostats-desktop="" style="display: flex; align-items: stretch; gap: 34px; margin-top: 90px">
+        <div><div style="font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 600; line-height: 1; white-space: nowrap;">2</div><div style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 8px;">{{ stat1_label }}</div></div>
+        <div style="width: 1px; align-self: stretch; background: rgba(42,36,34,0.12);"></div>
+        <div><div style="font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 600; line-height: 1; white-space: nowrap;">8</div><div style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 8px;">{{ stat2_label }}</div></div>
+        <div style="width: 1px; align-self: stretch; background: rgba(42,36,34,0.12);"></div>
+        <div><div style="font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 600; line-height: 1; white-space: nowrap;">{{ stat3_val }}</div><div style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 8px;">{{ stat3_label }}</div></div>
+        <div style="width: 1px; align-self: stretch; background: rgba(42,36,34,0.12);"></div>
+        <div><div style="font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 600; line-height: 1; white-space: nowrap;">{{ stat4_val }}</div><div style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 8px;">{{ stat4_label }}</div></div>
+      </div>
+    </div><div style="position: relative; margin-left: -32%; margin-right: 0; animation: floatUp 1s ease 0.15s both; z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%), linear-gradient(180deg, transparent 0%, #000 14%), linear-gradient(0deg, transparent 0%, #000 12%), linear-gradient(270deg, transparent 0%, #000 8%); -webkit-mask-composite: source-in, source-in, source-in; mask-image: linear-gradient(90deg, transparent 0%, #000 28%), linear-gradient(180deg, transparent 0%, #000 14%), linear-gradient(0deg, transparent 0%, #000 12%), linear-gradient(270deg, transparent 0%, #000 8%); mask-composite: intersect;">
+      
+    <img src="uploads/kristályhero.png" alt="Narukvica od ametista sa metalnim priveskom" style="width: 844px; height: 536px; object-fit: cover; display: block;"></div>
+    <a href="#prijava" data-cta-mobile="" style="display: none; position: relative; overflow: hidden; text-align: center; justify-content: center; margin-top: 26px; padding: 16px 34px; color: #faf6f0; border-radius: 999px; font-size: 16px; font-weight: 500; letter-spacing: 0.01em; background-color: #6E5487;"><span style="position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22) 50%, transparent); filter: blur(6px); animation: ctaSweep 3.8s ease-in-out infinite;"></span>{{ hero_cta }}</a>
+    <div data-herostats-mobile="" style="display: none; grid-template-columns: repeat(2, 1fr); gap: 22px 24px; margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(42,36,34,0.12);">
+      <div><div style="font-family: 'EB Garamond', serif; font-size: 22px; font-weight: 600; line-height: 1;">2</div><div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 7px;">{{ stat1_label }}</div></div>
+      <div><div style="font-family: 'EB Garamond', serif; font-size: 22px; font-weight: 600; line-height: 1;">8</div><div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 7px;">{{ stat2_label }}</div></div>
+      <div><div style="font-family: 'EB Garamond', serif; font-size: 22px; font-weight: 600; line-height: 1;">{{ stat3_val }}</div><div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 7px;">{{ stat3_label }}</div></div>
+      <div><div style="font-family: 'EB Garamond', serif; font-size: 22px; font-weight: 600; line-height: 1;">{{ stat4_val }}</div><div style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a7f78; margin-top: 7px;">{{ stat4_label }}</div></div>
+    </div>
+  </div>
+
+  <!-- O RADIONICI -->
+  <div id="o-radionici" style="background: #2a2422; color: #faf6f0; padding: 96px 28px;">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div style="max-width: 620px; margin-bottom: 62px;">
+        <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #b39ec0; margin-bottom: 18px;">{{ about_eyebrow }}</div>
+        <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; margin: 0;">{{ about_h2 }}</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+        <div style="border-top: 1px solid rgba(250,246,240,0.18); padding-top: 24px;">
+          <div style="font-family: 'EB Garamond', serif; font-size: 28px; color: #b39ec0; margin-bottom: 14px;">01</div>
+          <h3 style="font-size: 20px; font-weight: 500; margin: 0 0 10px;">{{ step1_t }}</h3>
+          <p style="font-size: 16px; line-height: 1.65; font-weight: 400; color: rgba(250,246,240,0.78); margin: 0;">{{ step1_d }}</p>
+        </div>
+        <div style="border-top: 1px solid rgba(250,246,240,0.18); padding-top: 24px;">
+          <div style="font-family: 'EB Garamond', serif; font-size: 28px; color: #b39ec0; margin-bottom: 14px;">02</div>
+          <h3 style="font-size: 20px; font-weight: 500; margin: 0 0 10px;">{{ step2_t }}</h3>
+          <p style="font-size: 16px; line-height: 1.65; font-weight: 400; color: rgba(250,246,240,0.78); margin: 0;">{{ step2_d }}</p>
+        </div>
+        <div style="border-top: 1px solid rgba(250,246,240,0.18); padding-top: 24px;">
+          <div style="font-family: 'EB Garamond', serif; font-size: 28px; color: #b39ec0; margin-bottom: 14px;">03</div>
+          <h3 style="font-size: 20px; font-weight: 500; margin: 0 0 10px;">{{ step3_t }}</h3>
+          <p style="font-size: 16px; line-height: 1.65; font-weight: 400; color: rgba(250,246,240,0.78); margin: 0;">{{ step3_d }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATMOSFERA -->
+  <div style="position: relative; overflow: hidden;">
+    <img data-atm-img="" src="uploads/workshopon csapat.png" alt="Grupa polaznica na radionici izrade narukvica" style="width: 100%; height: 620px; object-fit: cover; display: block;">
+    <div data-atm-shade="" style="position: absolute; inset: 0; background: linear-gradient(78deg, rgba(28,23,20,0.72) 0%, rgba(28,23,20,0.4) 30%, rgba(28,23,20,0) 58%), linear-gradient(to top, rgba(28,23,20,0.6) 0%, rgba(28,23,20,0) 46%);"></div>
+    <div data-atm-overlay="" style="position: absolute; inset: 0; display: flex; align-items: flex-end;">
+      <div style="max-width: 1180px; width: 100%; margin: 0 auto; padding: 0 28px 48px; padding-left: 0px">
+        
+      <div style="max-width: 520px; color: #faf6f0;">
+          <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #d9c8e2; margin-bottom: 18px; text-shadow: 0 1px 6px rgba(0,0,0,0.6);">{{ atm_eyebrow }}</div>
+          <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 48px; line-height: 1.08; margin: 0 0 20px; text-shadow: 0 1px 3px rgba(0,0,0,0.6), 0 2px 16px rgba(0,0,0,0.5);">{{ atm_h2 }}</h2>
+          <p style="font-size: 20px; line-height: 1.7; font-weight: 400; color: #FFFFFF; margin: 0; text-wrap: pretty; text-shadow: 0 1px 3px rgba(0,0,0,0.75), 0 2px 12px rgba(0,0,0,0.6);">{{ atm_p }}</p>
+        </div></div>
+    </div>
+    <div data-atm-mobile="" style="display: none; padding: 44px 20px 48px; background: #faf6f0; border-top: 1px solid rgba(42,36,34,0.08);">
+      <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #6e5487; margin-bottom: 14px;">{{ atm_eyebrow }}</div>
+      <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 32px; line-height: 1.12; margin: 0 0 16px; color: #2a2422;">{{ atm_h2 }}</h2>
+      <p style="font-size: 17px; line-height: 1.7; font-weight: 400; color: rgba(42,36,34,0.78); margin: 0; text-wrap: pretty;">{{ atm_p }}</p>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <div style="background: #2a2422; color: #faf6f0; padding: 96px 28px;">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div style="max-width: 620px; margin: 0 0 62px;">
+        <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #b39ec0; margin-bottom: 18px;">{{ prob_eyebrow }}</div>
+        <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; margin: 0 0 22px;">{{ prob_h2 }}</h2>
+        <p style="font-family: 'EB Garamond', serif; font-size: 24px; line-height: 1.4; font-weight: 400; color: rgba(250,246,240,0.9); margin: 0; text-wrap: pretty;">{{ prob_sub }}</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+      <div style="border-top: 1px solid rgba(250,246,240,0.18); padding-top: 24px;">
+        <div style="font-family: 'EB Garamond', serif; font-size: 28px; color: #b39ec0; margin-bottom: 14px;">01</div>
+        <p style="font-size: 17px; line-height: 1.7; font-weight: 400; color: rgba(250,246,240,0.78); margin: 0;">{{ prob_p1 }}</p>
+      </div>
+      <div style="border-top: 1px solid rgba(250,246,240,0.18); padding-top: 24px;">
+        <div style="font-family: 'EB Garamond', serif; font-size: 28px; color: #b39ec0; margin-bottom: 14px;">02</div>
+        <p style="font-size: 17px; line-height: 1.7; font-weight: 400; color: rgba(250,246,240,0.78); margin: 0;">{{ prob_p2 }}</p>
+      </div>
+      <div style="border-top: 1px solid rgba(250,246,240,0.18); padding-top: 24px;">
+        <div style="font-family: 'EB Garamond', serif; font-size: 28px; color: #b39ec0; margin-bottom: 14px;">03</div>
+        <p style="font-size: 17px; line-height: 1.7; font-weight: 400; color: rgba(250,246,240,0.78); margin: 0;">{{ prob_p3 }}</p>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALERIJA -->
+  <div id="galerija" style="max-width: 1180px; margin: 0 auto; padding: 96px 28px;">
+    <div style="margin-bottom: 44px;">
+      <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #6e5487; margin-bottom: 16px;">{{ gal_eyebrow }}</div>
+      <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; margin: 0; max-width: 900px;">{{ gal_h2 }} <span style="font-size: 32px; color: #8a7f78; vertical-align: 0.06em;">–</span> {{ gal_p }}</h2>
+    </div>
+    <div data-gallery-grid="" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;">
+      <sc-for list="{{ gallery }}" as="tile" hint-placeholder-count="4">
+        <div style="aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; border: 1px solid rgba(42,36,34,0.05); background-color: {{ tile.stoneBg }}; background-size: cover; background-position: center; background-image: {{ tile.bg }}; background-blend-mode: {{ tile.blend }}; filter: {{ tile.filter }}; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;" style-hover="transform: translate(1px, -2px); box-shadow: 0 10px 22px -16px rgba(42,36,34,0.4);"></div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- CENA -->
+  <div id="cena" style="background: linear-gradient(180deg, #f2ebe1, #ece2d4); padding: 96px 28px;">
+    <div style="max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+      <div>
+        <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #6e5487; margin-bottom: 18px;">{{ cena_eyebrow }}</div>
+        <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; margin: 0 0 24px;">{{ cena_h2 }}</h2>
+        <p style="font-size: 17px; line-height: 1.65; font-weight: 400; color: #4a423c; margin: 0 0 32px; max-width: 440px;">{{ cena_p }}</p>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <sc-for list="{{ includes }}" as="item" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; gap: 14px; font-size: 16px; color: #3a332f;">
+              <span style="color: #6e5487; font-size: 14px;">◆</span>{{ item.text }}
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background: #fff; border-radius: 22px; padding: 44px; box-shadow: 0 30px 60px -34px rgba(42,36,34,0.45); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -40px; right: -40px; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(110,84,135,0.16), transparent 70%);"></div>
+        <div style="font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: #8a7f78; margin-bottom: 8px;">{{ price_per }}</div>
+        <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;">
+          <span style="font-family: 'EB Garamond', serif; font-size: 72px; font-weight: 600; line-height: 1;">1.700</span>
+          <span style="font-size: 22px; color: #4a423c;">RSD</span>
+        </div>
+        <div style="font-size: 15px; color: #8a7f78; margin-bottom: 28px;">{{ price_unit }}</div>
+        <div style="height: 1px; background: rgba(42,36,34,0.1); margin-bottom: 28px;"></div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 15px;"><span style="color: #6e5487;">◆</span> {{ price_feat1 }}</div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 28px; font-size: 15px;"><span style="color: #6e5487;">◆</span> {{ price_feat2 }}</div>
+        <a href="#prijava" style="position: relative; overflow: hidden; display: block; text-align: center; padding: 16px; background: #6e5487; color: #faf6f0; border-radius: 999px; font-size: 16px; font-weight: 500; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;" style-hover="background: #2a2422; transform: translateY(-3px); box-shadow: 0 16px 30px -12px rgba(110,84,135,0.6);"><span style="position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22) 50%, transparent); filter: blur(6px); animation: ctaSweep 3.8s ease-in-out infinite;"></span>{{ cena_cta }}</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIJALI -->
+  <div style="max-width: 1180px; margin: 0 auto; padding: 96px 28px;">
+    <div style="text-align: center; margin-bottom: 56px;">
+      <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #6e5487; margin-bottom: 16px;">{{ test_eyebrow }}</div>
+      <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; margin: 0;">{{ test_h2 }}</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+      <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+        <div style="background: #fff; border-radius: 18px; padding: 30px; border: 1px solid rgba(42,36,34,0.06); box-shadow: 0 20px 44px -34px rgba(42,36,34,0.4);">
+          <div style="color: #6e5487; font-size: 16px; letter-spacing: 3px; margin-bottom: 16px;">{{ t.starStr }}</div>
+          <p style="font-size: 16px; line-height: 1.65; font-weight: 400; color: #3a332f; margin: 0 0 22px; font-style: italic;">„{{ t.text }}”</p>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: #6e5487; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500;">{{ t.initial }}</div>
+            <div>
+              <div style="font-size: 15px; font-weight: 500;">{{ t.name }}</div>
+              <div style="font-size: 13px; color: #8a7f78;">{{ t.role }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div id="pitanja" style="background: #2a2422; color: #faf6f0; padding: 96px 28px;">
+    <div style="max-width: 820px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 52px;">
+        <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #b39ec0; margin-bottom: 16px;">{{ faq_eyebrow }}</div>
+        <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.1; margin: 0;">{{ faq_h2 }}</h2>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0;">
+        <sc-for list="{{ faqs }}" as="faq" hint-placeholder-count="5">
+          <div style="border-bottom: 1px solid rgba(250,246,240,0.15);">
+            <button onClick="{{ faq.toggle }}" style="width: 100%; background: none; border: none; color: #faf6f0; padding: 26px 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; cursor: pointer; text-align: left; font-family: inherit;">
+              <span style="font-size: 20px; font-weight: 400;">{{ faq.q }}</span>
+              <span style="font-size: 24px; color: #b39ec0; flex-shrink: 0; transition: transform 0.25s; transform: {{ faq.caret }};">+</span>
+            </button>
+            <div style="overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s; max-height: {{ faq.max }}; opacity: {{ faq.opacity }};">
+              <p style="font-size: 16px; line-height: 1.65; font-weight: 400; color: rgba(250,246,240,0.7); margin: 0 0 26px; max-width: 620px;">{{ faq.a }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIJAVA -->
+  <div id="prijava" style="max-width: 1180px; margin: 0 auto; padding: 96px 28px;">
+    <div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: start;">
+      <div>
+        <div style="font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #6e5487; margin-bottom: 18px;">{{ prijava_eyebrow }}</div>
+        <h2 style="font-family: 'EB Garamond', serif; font-weight: 500; font-size: 46px; line-height: 1.08; margin: 0 0 24px;">{{ prijava_h2 }}</h2>
+        <p style="font-size: 17px; line-height: 1.65; font-weight: 400; color: #4a423c; margin: 0 0 36px;">{{ prijava_p }}</p>
+        <div style="display: flex; flex-direction: column; gap: 22px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #6e5487; font-size: 20px; animation: tick 5.5s ease-in-out infinite;">◆</div>
+            <div><div style="font-size: 13px; color: #8a7f78; letter-spacing: 0.08em; text-transform: uppercase;">{{ loc_label }}</div><div style="font-size: 16px; font-weight: 500;">{{ loc_val }}</div></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #6e5487; font-size: 20px; animation: tick 5.5s ease-in-out infinite 0.4s;">◆</div>
+            <div><div style="font-size: 13px; color: #8a7f78; letter-spacing: 0.08em; text-transform: uppercase;">{{ dur_label }}</div><div style="font-size: 16px; font-weight: 500;">{{ dur_val }}</div></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #6e5487; font-size: 20px; animation: tick 5.5s ease-in-out infinite 0.8s;">◆</div>
+            <div><div style="font-size: 13px; color: #8a7f78; letter-spacing: 0.08em; text-transform: uppercase;">{{ date_label }}</div><div style="font-size: 16px; font-weight: 500;">{{ date_val }}</div></div>
+          </div>
+        </div>
+        <p style="margin: 32px 0 0; padding-top: 24px; border-top: 1px solid rgba(42,36,34,0.12); font-size: 15px; line-height: 1.65; color: #4a423c; font-weight: 400;"><strong style="font-weight: 500; color: #2a2422;">P.S.</strong> {{ ps_text }}</p>
+      </div>
+
+      <div style="background: #fff; border-radius: 22px; padding: 40px; box-shadow: 0 30px 60px -36px rgba(42,36,34,0.4); border: 1px solid rgba(42,36,34,0.06);">
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align: center; padding: 40px 10px;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #f2ebe1; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-size: 26px; color: #6e5487;">◆</div>
+            <h3 style="font-family: 'EB Garamond', serif; font-size: 30px; font-weight: 600; margin: 0 0 12px;">{{ success_h }}</h3>
+            <p style="font-size: 16px; color: #4a423c; font-weight: 400; margin: 0 0 24px; line-height: 1.6;">{{ successP }}</p>
+            <button onClick="{{ reset }}" style="padding: 12px 26px; background: none; border: 1px solid rgba(42,36,34,0.2); border-radius: 999px; font-family: inherit; font-size: 15px; cursor: pointer; color: #2a2422;">{{ success_btn }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 8px; color: #4a423c;">{{ form_name }}</label>
+              <input value="{{ fName }}" onChange="{{ onName }}" placeholder="{{ form_name_ph }}" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(42,36,34,0.16); border-radius: 12px; font-family: inherit; font-size: 15px; background: #faf6f0; outline: none;">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+              <div>
+                <label style="display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 8px; color: #4a423c;">{{ form_phone }}</label>
+                <input value="{{ fPhone }}" onChange="{{ onPhone }}" placeholder="06x..." style="width: 100%; padding: 14px 16px; border: 1px solid rgba(42,36,34,0.16); border-radius: 12px; font-family: inherit; font-size: 15px; background: #faf6f0; outline: none;">
+              </div>
+              <div>
+                <label style="display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 8px; color: #4a423c;">{{ form_count }}</label>
+                <input value="{{ fCount }}" onChange="{{ onCount }}" type="number" min="1" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(42,36,34,0.16); border-radius: 12px; font-family: inherit; font-size: 15px; background: #faf6f0; outline: none;">
+              </div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 8px; color: #4a423c;">{{ form_email }}</label>
+              <input value="{{ fEmail }}" onChange="{{ onEmail }}" placeholder="{{ form_email_ph }}" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(42,36,34,0.16); border-radius: 12px; font-family: inherit; font-size: 15px; background: #faf6f0; outline: none;">
+            </div>
+            <div>
+              <label style="display: block; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 8px; color: #4a423c;">{{ form_msg }}</label>
+              <textarea value="{{ fMsg }}" onChange="{{ onMsg }}" placeholder="{{ form_msg_ph }}" rows="3" style="width: 100%; padding: 14px 16px; border: 1px solid rgba(42,36,34,0.16); border-radius: 12px; font-family: inherit; font-size: 15px; background: #faf6f0; outline: none; resize: vertical;"></textarea>
+            </div>
+            <button onClick="{{ submit }}" style="position: relative; overflow: hidden; margin-top: 6px; padding: 16px; background: #6e5487; color: #faf6f0; border: none; border-radius: 999px; font-family: inherit; font-size: 16px; font-weight: 500; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;" style-hover="background: #2a2422; transform: translateY(-3px); box-shadow: 0 16px 30px -12px rgba(110,84,135,0.6);"><span style="position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22) 50%, transparent); filter: blur(6px); animation: ctaSweep 3.8s ease-in-out infinite;"></span>{{ form_submit }}</button>
+            
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background: #2a2422; color: rgba(250,246,240,0.7); padding: 48px 28px;">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 12px; color: #faf6f0;">
+        <img src="assets/logo-clean.png" alt="Kristalna Nit" style="width: 32px; height: 32px; object-fit: contain;">
+        <span style="font-family: 'EB Garamond', serif; font-size: 21px; font-weight: 600;">Kristalna Nit</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; text-align: center;">
+        <div>{{ footer_addr }}</div>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+          <a href="tel:+381638256885" style="color: #faf6f0; display: inline-flex; align-items: center; gap: 7px;"><span aria-hidden="true">☎</span>+381 63 8256885</a>
+          <a href="mailto:kristalninit@mosacwebland.com" style="color: #faf6f0; display: inline-flex; align-items: center; gap: 7px;"><span aria-hidden="true">✉</span>kristalnanit@mosaicwebland.com</a>
+        </div>
+      </div>
+      <div style="font-size: 13px; color: rgba(250,246,240,0.45);">© 2026 Kristalna Nit</div>
+    </div>
+  </div>
+
+</div>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#6e5487"/><text x="50" y="66" font-family="Georgia, serif" font-size="52" fill="#faf6f0" text-anchor="middle">K</text></svg></template></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1180, &quot;height&quot;: 900}, &quot;accent&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#6e5487&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;#6e5487&quot;, &quot;#5a7a6b&quot;, &quot;#a5736b&quot;, &quot;#6b6f8a&quot;]}}">
+class Component extends DCLogic {
+  state = {
+    lang: "sr",
+    menuOpen: false,
+    openFaq: 0,
+    submitted: false,
+    sentName: "",
+    fName: "", fPhone: "", fEmail: "", fCount: "1", fMsg: ""
+  };
+
+  renderVals() {
+    const accent = this.props.accent ?? "#6e5487";
+    const lang = this.state.lang;
+
+    const content = {
+      sr: {
+        nav_about: "O radionici", nav_gallery: "Galerija", nav_price: "Cena", nav_faq: "Pitanja", nav_cta: "Prijavi se",
+        hero_kicker: "Radionica u Kanjiži",
+        hero_h1: "Napravi svoju narukvicu od pravog kristala",
+        hero_sub: "Dvočasovna radionica za početnice. Biraš kristale, mi te vodimo kroz nizanje, a odlaziš sa narukvicom koju si sama napravila. Sav materijal je uključen.",
+        hero_cta: "Rezerviši mesto",
+        stat1_label: "sata", stat2_label: "učesnika", stat3_label: "termin", stat4_label: "mesto", stat3_val: "15.08. · 10:00", stat4_val: "Kanjiža",
+        about_eyebrow: "Šta te čeka",
+        about_h2: "Sve što treba je dva sata i malo radoznalosti",
+        step1_t: "Biraš kristale", step1_d: "Iz naše kolekcije prirodnog kamenja biraš boje i energiju koja ti prija.",
+        step2_t: "Učiš tehniku", step2_d: "Korak po korak vodimo te kroz nizanje i osiguravanje narukvice da traje.",
+        step3_t: "Nosiš svoj komad", step3_d: "Odlaziš kući sa gotovom narukvicom koju si napravila sama, od početka do kraja.",
+        atm_eyebrow: "Atmosfera",
+        atm_h2: "Dobro društvo, kristali i ništa što se žuri",
+        atm_p: "Dva sata bez žurbe, za stolom punim prirodnog kamenja. Dođi sama ili povedi društvo, mesta oko stola ima i za razgovor i za rad rukama.",
+        prob_eyebrow: "Možda ti je poznato",
+        prob_h2: "Kupovni nakit lepo izgleda, ali ništa ne znači",
+        prob_p1: "Kutija ti je puna narukvica koje si kupila u prolazu. Sve liče jedna na drugu i nijednu ne voliš dovoljno da je nosiš svaki dan.",
+        prob_p2: "Htela bi da napraviš nešto svojim rukama, ali ne znaš odakle da počneš. Tutorijali podrazumevaju da već imaš alat, materijal i pola dana slobodnog vremena.",
+        prob_p3: "Na kraju veče provedeš za telefonom, iako si htela nešto sasvim drugo. Ovde je drugačije: dva sata za stolom, rukama, i veče koje ostaje sa tobom.",
+        prob_sub: "Zato ova radionica postoji. Za dva sata napraviš komad koji je samo tvoj.",
+        gal_eyebrow: "Galerija",
+        gal_h2: "Primeri narukvica sa radionica",
+        gal_p: "svaki komad je drugačiji",
+        cena_eyebrow: "Cena i uslovi",
+        cena_h2: "Jedna cena, sve uključeno",
+        cena_p: "Bez skrivenih troškova. Dođeš praznih ruku, odlaziš sa gotovom narukvicom od pravog kristala.",
+        price_per: "Po osobi",
+        price_unit: "za jednu narukvicu · trajanje 2 sata",
+        price_feat1: "Kristali i sav materijal uključeni",
+        price_feat2: "Mali broj polaznika po terminu",
+        cena_cta: "Prijavi se za termin",
+        includes: [
+          "Prirodni kristali po tvom izboru",
+          "Elastična sajla i sve za nizanje",
+          "Vođena tehnika od početka do kraja",
+          "Kafa / čaj tokom radionice"
+        ],
+        test_eyebrow: "Utisci",
+        test_h2: "Šta kažu polaznice",
+        testimonials: [
+          { text: "Nikad ranije nisam pravila nakit, a izašla sam sa narukvicom koju stalno nosim. Atmosfera je bila divna.", name: "Kristina", role: "Subotica", stars: 5 },
+          { text: "Baš opuštajuće dva sata. Objašnjeno strpljivo, kristali predivni. Dolazim ponovo sa drugaricom.", name: "Marina", role: "Kanjiža", stars: 5 },
+          { text: "Odličan poklon samoj sebi. Naučila sam tehniku koju sada koristim i kod kuće.", name: "Valentina", role: "Senta", stars: 4 }
+        ],
+        faq_eyebrow: "Česta pitanja",
+        faq_h2: "Sve što te zanima",
+        faqs: [
+          { q: "Da li mi treba predznanje?", a: "Ne. Radionica je za potpune početnice. Vodimo te kroz svaki korak, od izbora kamenja do vezivanja." },
+          { q: "Šta je uključeno u cenu?", a: "Svi kristali i materijal za jednu narukvicu, kao i vođenje kroz celu izradu. Dođeš praznih ruku." },
+          { q: "Koliko traje radionica?", a: "Oko 2 sata, taman dovoljno da bez žurbe napraviš i osiguraš svoju narukvicu." },
+          { q: "Mogu li da dođem sa društvom?", a: "Naravno. U prijavi upiši broj osoba i organizujemo mesta. Radionice su idealne i za male proslave." },
+          { q: "Gde se održava?", a: "U Kanjiži, na adresi Umetnička 8. Termin je 15. avgust 2026. 10:00-12:00" }
+        ],
+        prijava_eyebrow: "Prijava",
+        prijava_h2: "Rezerviši svoje mesto",
+        prijava_p: "Popuni prijavu i javljamo ti se sa potvrdom termina. Broj mesta je ograničen.",
+        loc_label: "Lokacija", loc_val: "Umetnička 8, Kanjiža",
+        dur_label: "Trajanje", dur_val: "2 sata · mala grupa",
+        date_label: "Termin", date_val: "Sledeći termin: 15.08.2026. · 10:00\n",
+        ps_text: "Broj mesta po terminu je mali i termini se popune brzo. Prijavi se sada, javljamo ti se sa slobodnim datumima, a prijava te ni na šta ne obavezuje dok ne potvrdimo termin.",
+        form_name: "Ime i prezime", form_name_ph: "Npr. Ana Jović",
+        form_phone: "Telefon", form_count: "Broj osoba",
+        form_email: "Email", form_email_ph: "tvoj@email.com",
+        form_msg: "Poruka (opciono)", form_msg_ph: "Pitanja, željeni datum...",
+        form_submit: "Pošalji prijavu",
+        form_disclaimer: "Prijava te ni na šta ne obavezuje dok ne potvrdimo termin.",
+        success_h: "Prijava poslata!",
+        success_p: "Hvala, {name}. Javljamo ti se uskoro sa potvrdom termina.",
+        success_btn: "Nova prijava",
+        default_name: "puno pozdrava",
+        footer_addr: "Kristalni put 8, Kanjiža · Srbija"
+      },
+      hu: {
+        nav_about: "A műhelyről", nav_gallery: "Galéria", nav_price: "Ár", nav_faq: "Kérdések", nav_cta: "Jelentkezz",
+        hero_kicker: "Műhely Magyarkanizsán",
+        hero_h1: "Készítsd el saját karkötőd valódi kristályból",
+        hero_sub: "Kétórás műhely kezdőknek. Te választod ki a kristályokat, mi végigvezetünk a fűzésen, te pedig a saját kezűleg készített karkötővel távozol. Minden alapanyag benne van.",
+        hero_cta: "Foglald le a helyed",
+        stat1_label: "óra", stat2_label: "résztvevő", stat3_label: "időpont", stat4_label: "város", stat3_val: "08.15. · 10:00", stat4_val: "Magyarkanizsa",
+        about_eyebrow: "Mi vár rád",
+        about_h2: "Mindössze két óra és egy kis kíváncsiság kell hozzá",
+        step1_t: "Kristályt választasz", step1_d: "A természetes kövek kollekciónkból kiválasztod a színeket és az energiát, ami jólesik.",
+        step2_t: "Megtanulod a technikát", step2_d: "Lépésről lépésre végigvezetünk a fűzésen és a karkötő rögzítésén, hogy tartós legyen.",
+        step3_t: "Viseled a saját darabod", step3_d: "Kész karkötővel mész haza, amit elejétől a végéig te magad készítettél.",
+        atm_eyebrow: "Hangulat",
+        atm_h2: "Jó társaság, kristályok és semmi kapkodás",
+        atm_p: "Két óra sietség nélkül, egy asztalnál tele természetes kővel. Gyere egyedül vagy hozz társaságot, az asztal körül van hely a beszélgetésre és a kézműveskedésre is.",
+        prob_eyebrow: "Talán ismerős",
+        prob_h2: "A bolti ékszer szépen mutat, de semmit sem jelent",
+        prob_p1: "A dobozod tele van karkötőkkel, amiket futtában vettél. Mind hasonlít egymásra, és egyiket sem szereted annyira, hogy minden nap hordd.",
+        prob_p2: "Szeretnél valamit a saját kezeddel készíteni, de nem tudod, hol kezdd. Az útmutatók feltételezik, hogy már van szerszámod, alapanyagod és fél szabadnapod.",
+        prob_p3: "A végén a telefon előtt töltöd az estét, pedig egészen mást szerettél volna. Itt más lesz: két óra kézzel, egy asztalnál, és egy este, amire emlékezni fogsz.",
+        prob_sub: "Ezért van ez a műhely. Két óra alatt elkészítesz egy darabot, ami csakis a tiéd.",
+        gal_eyebrow: "Galéria",
+        gal_h2: "Karkötők a korábbi műhelyekről",
+        gal_p: "minden darab más",
+        cena_eyebrow: "Ár és feltételek",
+        cena_h2: "Egy ár, minden benne",
+        cena_p: "Nincsenek rejtett költségek. Üres kézzel jössz, és kész karkötővel távozol valódi kristályból.",
+        price_per: "Személyenként",
+        price_unit: "egy karkötőért · 2 óra időtartam",
+        price_feat1: "Kristályok és minden alapanyag benne",
+        price_feat2: "Kis létszám alkalmanként",
+        cena_cta: "Jelentkezz egy időpontra",
+        includes: [
+          "Természetes kristályok a te választásod szerint",
+          "Elasztikus zsinór és minden a fűzéshez",
+          "Vezetett technika elejétől a végéig",
+          "Kávé / tea a műhely alatt"
+        ],
+        test_eyebrow: "Vélemények",
+        test_h2: "Mit mondanak a résztvevők",
+        testimonials: [
+          { text: "Sosem készítettem még ékszert, mégis olyan karkötővel jöttem el, amit folyton hordok. Csodálatos volt a hangulat.", name: "Kristina", role: "Szabadka", stars: 5 },
+          { text: "Nagyon pihentető két óra. Türelmesen elmagyarázták, a kristályok gyönyörűek. Jövök újra egy barátnőmmel.", name: "Marina", role: "Magyarkanizsa", stars: 5 },
+          { text: "Remek ajándék saját magamnak. Megtanultam egy technikát, amit most otthon is használok.", name: "Valentina", role: "Zenta", stars: 4 }
+        ],
+        faq_eyebrow: "Gyakori kérdések",
+        faq_h2: "Minden, ami érdekelhet",
+        faqs: [
+          { q: "Kell hozzá előképzettség?", a: "Nem. A műhely teljesen kezdőknek szól. Végigvezetünk minden lépésen, a kövek kiválasztásától a rögzítésig." },
+          { q: "Mit tartalmaz az ár?", a: "Minden kristályt és alapanyagot egy karkötőhöz, valamint a teljes elkészítés vezetését. Üres kézzel jössz." },
+          { q: "Meddig tart a műhely?", a: "Körülbelül 2 óra, épp elég, hogy sietség nélkül elkészítsd és rögzítsd a karkötőd." },
+          { q: "Jöhetek társasággal?", a: "Természetesen. A jelentkezésben írd be a létszámot, és megszervezzük a helyeket. A műhelyek kis ünnepségekre is ideálisak." },
+          { q: "Hol tartják?", a: "Magyarkanizsán, a Kristalni put 8 alatt. Az időpont: 2026. augusztus 15." }
+        ],
+        prijava_eyebrow: "Jelentkezés",
+        prijava_h2: "Foglald le a helyed",
+        prijava_p: "Töltsd ki a jelentkezést, és jelzünk az időpont megerősítésével. A helyek száma korlátozott.",
+        loc_label: "Helyszín", loc_val: "Kristalni put 8, Magyarkanizsa",
+        dur_label: "Időtartam", dur_val: "2 óra · kis csoport",
+        date_label: "Időpont", date_val: "következő: 2026.08.15. · 10:00",
+        ps_text: "Alkalmanként kevés a hely, és az időpontok gyorsan betelnek. Jelentkezz most, jelezzük a szabad időpontokat, a jelentkezés pedig semmire nem kötelez, amíg meg nem erősítjük az időpontot.",
+        form_name: "Név és vezetéknév", form_name_ph: "Pl. Kovács Anna",
+        form_phone: "Telefon", form_count: "Létszám",
+        form_email: "E-mail", form_email_ph: "te@email.com",
+        form_msg: "Üzenet (opcionális)", form_msg_ph: "Kérdések, kívánt időpont...",
+        form_submit: "Jelentkezés elküldése",
+        form_disclaimer: "A jelentkezés semmire nem kötelez, amíg meg nem erősítjük az időpontot.",
+        success_h: "Jelentkezés elküldve!",
+        success_p: "Köszönjük, {name}. Hamarosan jelentkezünk az időpont megerősítésével.",
+        success_btn: "Új jelentkezés",
+        default_name: "sok üdvözlettel",
+        footer_addr: "Kristalni put 8, Magyarkanizsa · Szerbia"
+      }
+    };
+
+    const L = content[lang];
+    const bg = id => `url("https://images.unsplash.com/${id}?fm=jpg&q=80&w=800&auto=format&fit=crop")`;
+    const gallery = [
+      { bg: 'url("uploads/handmade bracelet process hands/7.png")' },
+      { bg: 'url("uploads/handmade bracelet process hands/9.png")' },
+      { bg: 'url("uploads/handmade%20bracelet%20process%20hands%20%281%29/4.png")' },
+      { bg: bg("photo-1743127671060-df0140e9edf0"), filter: "saturate(1.08)" }
+    ].map((t, i) => ({ filter: "none", stoneBg: i === 0 ? "#efe6da" : "#e6e4df", blend: i === 0 ? "normal" : "multiply", ...t }));
+
+    const activeBtn = "border: none; cursor: pointer; font-family: inherit; font-size: 13px; letter-spacing: 0.06em; padding: 6px 14px; border-radius: 999px; background: #6e5487; color: #faf6f0; font-weight: 600; transition: all 0.2s ease;";
+    const idleBtn = "border: none; cursor: pointer; font-family: inherit; font-size: 13px; letter-spacing: 0.06em; padding: 6px 14px; border-radius: 999px; background: transparent; color: #6e5487; font-weight: 500; transition: all 0.2s ease;";
+
+    const name = this.state.sentName || L.default_name;
+
+    return {
+      accent,
+      ...L,
+      gallery,
+      includes: L.includes.map(text => ({ text })),
+      testimonials: L.testimonials.map(t => ({ ...t, initial: t.name[0], starStr: "★★★★★".slice(0, t.stars ?? 5) + "☆☆☆☆☆".slice(0, 5 - (t.stars ?? 5)) })),
+      faqs: L.faqs.map((f, i) => {
+        const open = this.state.openFaq === i;
+        return {
+          q: f.q, a: f.a,
+          caret: open ? "rotate(45deg)" : "rotate(0deg)",
+          max: open ? "240px" : "0px",
+          opacity: open ? 1 : 0,
+          toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i }))
+        };
+      }),
+      srBtnStyle: lang === "sr" ? activeBtn : idleBtn,
+      huBtnStyle: lang === "hu" ? activeBtn : idleBtn,
+      setSr: () => this.setState({ lang: "sr" }),
+      setHu: () => this.setState({ lang: "hu" }),
+      lang_label: lang === "sr" ? "Jezik" : "Nyelv",
+      menuDisplay: this.state.menuOpen ? "flex" : "none",
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      barTop: this.state.menuOpen ? "translateY(7px) rotate(45deg)" : "none",
+      barBot: this.state.menuOpen ? "translateY(-7px) rotate(-45deg)" : "none",
+      barMidOpacity: this.state.menuOpen ? 0 : 1,
+      successP: L.success_p.replace("{name}", name),
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      fName: this.state.fName, fPhone: this.state.fPhone, fEmail: this.state.fEmail,
+      fCount: this.state.fCount, fMsg: this.state.fMsg,
+      onName: e => this.setState({ fName: e.target.value }),
+      onPhone: e => this.setState({ fPhone: e.target.value }),
+      onEmail: e => this.setState({ fEmail: e.target.value }),
+      onCount: e => this.setState({ fCount: e.target.value }),
+      onMsg: e => this.setState({ fMsg: e.target.value }),
+      submit: () => this.setState(s => ({ submitted: true, sentName: s.fName.trim() })),
+      reset: () => this.setState({ submitted: false, fName: "", fPhone: "", fEmail: "", fCount: "1", fMsg: "" })
+    };
+  }
+}
+</script>
+</body>
+</html>
