@@ -3,6 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KristalNit – Radionica narukvica od kristala u Kanjiži</title>
+<meta name="description" content="Dvočasovna radionica za početnice. Biraš kristale, mi te vodimo kroz nizanje, a odlaziš sa narukvicom koju si sama napravila.">
+<link rel="icon" type="image/svg+xml" href="assets/kristalnit-jel.svg">
+<link rel="apple-touch-icon" href="assets/kristalnit-jel-512.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KristalNit">
+<meta property="og:title" content="KristalNit – Radionica narukvica od kristala u Kanjiži">
+<meta property="og:description" content="Dvočasovna radionica za početnice. Sav materijal je uključen.">
+<meta property="og:url" content="https://mosaicwebland.github.io/KristalnaNit/">
+<meta property="og:image" content="https://mosaicwebland.github.io/KristalnaNit/assets/og-sr.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="sr_RS">
+<meta property="og:locale:alternate" content="hu_HU">
+<meta name="twitter:card" content="summary_large_image">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -25,6 +40,7 @@
   /* ---- Desktop only ---- */
   @media (min-width: 861px) {
     [data-mobilemenu] { display: none !important; }
+    [data-navlogo] { height: 58px !important; }
   }
 
   /* ---- Tablet ---- */
@@ -32,7 +48,8 @@
     [style*="grid-template-columns: 1.05fr 0.95fr"] { grid-template-columns: 1fr !important; gap: 0 !important; }
     [style*="margin-left: -32%"] { display: none !important; }
     [data-hero-mobile-img] { display: block !important; }
-    p[style*="height: 134px"] { width: auto !important; height: auto !important; font-size: 17px !important; line-height: 1.6 !important; }
+    p[style*="height: 134px"] { width: auto !important; height: auto !important; font-size: 17px !important; line-height: 1.6 !important; margin-bottom: 0 !important; }
+    [data-cta-mobile] { margin-top: 22px !important; }
     h1[style*="font-size: 68px"] { font-size: 48px !important; width: auto !important; overflow-wrap: anywhere !important; }
     [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
     h2[style*="white-space: nowrap"] { white-space: normal !important; }
@@ -50,12 +67,21 @@
     [data-mobillang] button { padding: 5px 10px !important; font-size: 12px !important; }
   }
 
+  /* ---- Small phones ---- */
+  @media (max-width: 380px) {
+    [data-hero-mobile-img] img { max-height: 150px !important; }
+  }
+
   /* ---- Mobile ---- */
   @media (max-width: 600px) {
     [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: 1fr !important; }
     [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 32px !important; }
     [style*="grid-template-columns: 0.9fr 1.1fr"] { grid-template-columns: 1fr !important; gap: 32px !important; }
     h1[style*="font-size: 68px"] { font-size: 36px !important; }
+    [style*="padding: 44px 28px 96px"] { padding-top: 26px !important; }
+    h1[style*="font-size: 68px"] { margin-bottom: 18px !important; }
+    [data-hero-mobile-img] img { max-height: 190px; object-fit: cover; object-position: 70% 55%; }
+    [data-hero-mobile-img] { margin: -10px 0 14px !important; }
     h2[style*="font-size: 46px"], h2[style*="font-size: 48px"], h2[style*="white-space: nowrap"] { font-size: 30px !important; }
     [style*="padding: 96px 28px"] { padding: 56px 20px !important; }
     [style*="padding: 88px 28px"], [style*="padding: 44px 28px"] { padding: 28px 20px 52px !important; }
@@ -77,8 +103,7 @@
   <div style="position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); background: rgba(250,246,240,0.82); border-bottom: 1px solid rgba(42,36,34,0.08);">
     <div style="max-width: 1180px; margin: 0 auto; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
       <div style="display: flex; align-items: center; gap: 12px;">
-        <img src="assets/logo-clean.png" alt="Kristalna Nit" style="width: 46px; height: 46px; object-fit: contain; display: block;">
-        <span style="font-family: 'EB Garamond', serif; font-size: 23px; font-weight: 600; letter-spacing: 0.02em; color: #6e5487; white-space: nowrap;">Kristalna Nit</span>
+        <img data-navlogo="" src="assets/kristalnit-logo.svg" alt="KristalNit" style="height: 54px; width: auto; display: block;">
       </div>
       <div data-desktopnav="" style="display: flex; align-items: center; gap: 30px; font-size: 15px; font-weight: 400;">
         <a href="#o-radionici" data-navlink="">{{ nav_about }}</a>
@@ -372,8 +397,7 @@
   <div style="background: #2a2422; color: rgba(250,246,240,0.7); padding: 48px 28px;">
     <div style="max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
       <div style="display: flex; align-items: center; gap: 12px; color: #faf6f0;">
-        <img src="assets/logo-clean.png" alt="Kristalna Nit" style="width: 32px; height: 32px; object-fit: contain;">
-        <span style="font-family: 'EB Garamond', serif; font-size: 21px; font-weight: 600;">Kristalna Nit</span>
+        <img src="assets/kristalnit-logo-sotet-hatterre.svg" alt="KristalNit" style="height: 44px; width: auto; display: block;">
       </div>
       <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; text-align: center;">
         <div>{{ footer_addr }}</div>
@@ -382,7 +406,7 @@
           <a href="mailto:kristalninit@mosacwebland.com" style="color: #faf6f0; display: inline-flex; align-items: center; gap: 7px;"><span aria-hidden="true">✉</span>kristalnanit@mosaicwebland.com</a>
         </div>
       </div>
-      <div style="font-size: 13px; color: rgba(250,246,240,0.45);">© 2026 Kristalna Nit</div>
+      <div style="font-size: 13px; color: rgba(250,246,240,0.45);">© 2026 KristalNit</div>
     </div>
   </div>
 
